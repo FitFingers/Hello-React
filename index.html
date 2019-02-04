@@ -1,42 +1,170 @@
 <body>
-  <div id="app"></div>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.7.0/umd/react.production.min.js" crossorigin></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.7.0/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  
-  <script type="text/babel">
-  
-    const titleStyle = {
-      margin: "auto",
-      padding: "8px 24px",
-      width: "max-content",
-      textAlign: "center",
-    };
-  
-    const Title = () => {
-      return (
-        <div style={titleStyle}>
-          <h1>React Caesar Cipher!</h1>
-          <h2>Or, at least, a current attempt...</h2>
-        </div>
-      );
-    };
+<div id="app"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.7.0/umd/react.production.min.js" crossorigin></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.7.0/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+
+const titleStyle = {
+margin: "auto",
+padding: "8px 24px",
+width: "max-content",
+textAlign: "center",
+};
+
+const textBoxContainerStyle = {
+background: "lightgray",
+position: "relative",
+margin: "18px auto",
+width: 380,
+height: 232,
+borderRadius: 8,
+boxShadow: "0 0 10px 2px rgba(0,0,0,0.4)"
+};
+
+const textAreaStyle = {
+position: "absolute",
+width: "90%",
+top: "5%",
+bottom: "5%",
+left: "5%",
+right: "5%",
+};
+
+const settingsStyle = {
+display: "flex",
+flexDirection: "column",
+margin: "auto",
+width: 300,
+textAlign: "center",
+};
+
+const largeButton = {
+display: "block",
+padding: "12px",
+margin: "18px auto",
+width: "300px",
+};
+
+const smallButton = {
+width: "35%",
+};
+
+const counterStyle = {
+display: "flex",
+margin: "auto",
+width: 300,
+};
 
 
-    class Greeting extends React.Component {
-      render() {
-        return (
-        <div>
-          <p>Finally?</p>
-          <Title />
-        </div>
-        
-        );
-      }
-    }
-    ReactDOM.render(<Greeting />, document.getElementById("app"));
-  </script>
+
+const Title = () => {
+return (
+<div style={titleStyle}>
+<h1>React Caesar Cipher!</h1>
+<h2>Or, at least, a current attempt...</h2>
+</div>
+);
+};
+
+class TextBoxContainer extends React.Component {
+constructor(props) {
+super(props);
+}
+render() {
+return (
+<div style={textBoxContainerStyle}>
+<textarea onChange={this.props.handleInput} value={this.props.value} style={textAreaStyle} />
+</div>
+);
+}
+};
+
+class Counter extends React.Component {
+constructor(props) {
+super(props);
+}
+render() {
+return (
+<div style={settingsStyle}>
+<button onClick={this.props.resetOffset} style={largeButton}>Reset</button>
+<div style={counterStyle}>
+<button onClick={this.props.decrement} style={smallButton}>Decrement</button>
+<h2 style={{width: "40%"}}>{this.props.offset}</h2>
+<button onClick={this.props.increment} style={smallButton}>Increment</button>
+</div>
+<button style={largeButton} onClick={this.props.offsetString}>Encrypt</button>
+</div>
+);
+}
+};
+
+
+
+class App extends React.Component {
+constructor(props) {
+super(props);
+this.state = ({
+input: "",
+offset: 1,
+output: ""
+});
+this.handleInput = this.handleInput.bind(this);
+this.offsetString = this.offsetString.bind(this);
+this.increment = this.increment.bind(this);
+this.decrement = this.decrement.bind(this);
+this.resetOffset = this.resetOffset.bind(this);
+}
+
+handleInput(event) {
+this.setState({
+input: event.target.value
+});
+}
+
+offsetString() {
+const newStr = [...this.state.input].map(L => String.fromCharCode(L.charCodeAt(0)+this.state.offset)).join("");
+this.setState({
+output: newStr
+});
+}
+
+increment() {
+this.setState({
+offset: this.state.offset + 1
+});
+}
+
+decrement() {
+this.setState({
+offset: this.state.offset - 1
+});
+}
+
+resetOffset() {
+this.setState({
+offset: 0
+});
+}
+
+render() {
+return (
+<div style={{background: "#ddd", display: "flex", flexDirection: "column", margin: 0, height: "98vh"}}>
+<Title />
+<TextBoxContainer handleInput={this.handleInput} />
+<Counter offset={this.state.offset} offsetString={this.offsetString} increment={this.increment} decrement={this.decrement} resetOffset={this.resetOffset} />
+<TextBoxContainer value={this.state.output} />
+</div>
+);
+}
+};
+
+
+
+ReactDOM.render(<App />, document.getElementById("app"));
+</script>
 </body>
 
 
@@ -45,180 +173,180 @@
 
 <!--  -->
 
-  <!-- <body>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.7.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.7.0/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  
-  
-  
-  <h1>Page is displayed.</h1>
-  <h2>Try again...</h2>
-  
-  <div id="app"></div>
-  
-  
-  
-  
-  <script>
-    // STYLES
+<!-- <body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.7.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.7.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+
+<h1>Page is displayed.</h1>
+<h2>Try again...</h2>
+
+<div id="app"></div>
+
+
+
+
+<script>
+// STYLES
 const titleStyle = {
-  margin: "auto",
-  padding: "8px 24px",
-  width: "max-content",
-  textAlign: "center",
-  fontFamily: "trebuchet ms"
+margin: "auto",
+padding: "8px 24px",
+width: "max-content",
+textAlign: "center",
+fontFamily: "trebuchet ms"
 };
 
 const textBoxContainerStyle = {
-  background: "lightgray",
-  position: "relative",
-  margin: "18px auto",
-  width: 380,
-  height: 232,
-  borderRadius: 8,
-  boxShadow: "0 0 10px 2px rgba(0,0,0,0.4)"
+background: "lightgray",
+position: "relative",
+margin: "18px auto",
+width: 380,
+height: 232,
+borderRadius: 8,
+boxShadow: "0 0 10px 2px rgba(0,0,0,0.4)"
 };
 
 const textAreaStyle = {
-  position: "absolute",
-  width: "90%",
-  top: "5%",
-  bottom: "5%",
-  left: "5%",
-  right: "5%",
+position: "absolute",
+width: "90%",
+top: "5%",
+bottom: "5%",
+left: "5%",
+right: "5%",
 };
 
 const settingsStyle = {
-  display: "flex",
-  flexDirection: "column",
-  margin: "auto",
-  width: 300,
-  textAlign: "center",
-  fontFamily: "trebuchet ms",
+display: "flex",
+flexDirection: "column",
+margin: "auto",
+width: 300,
+textAlign: "center",
+fontFamily: "trebuchet ms",
 };
 
 const largeButton = {
-  display: "block",
-  padding: "12px",
-  margin: "18px auto",
-  width: "300px",
+display: "block",
+padding: "12px",
+margin: "18px auto",
+width: "300px",
 };
 
 const smallButton = {
-  width: "35%",
+width: "35%",
 };
 
 const counterStyle = {
-  display: "flex",
-  margin: "auto",
-  width: 300,
+display: "flex",
+margin: "auto",
+width: 300,
 };
 
 
 
 // COMPONENTS
 const Title = () => {
-  return (
-    <div style={titleStyle}>
-      <h1>React Caesar Cipher!</h1>
-      <h2>Or, at least, a current attempt...</h2>
-    </div>
-  );
+return (
+<div style={titleStyle}>
+<h1>React Caesar Cipher!</h1>
+<h2>Or, at least, a current attempt...</h2>
+</div>
+);
 };
 
 class TextBoxContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div style={textBoxContainerStyle}>
-        <textarea onChange={this.props.handleInput} value={this.props.value} style={textAreaStyle} />
-      </div>
-    );
-  }
+constructor(props) {
+super(props);
+}
+render() {
+return (
+<div style={textBoxContainerStyle}>
+<textarea onChange={this.props.handleInput} value={this.props.value} style={textAreaStyle} />
+</div>
+);
+}
 };
 
 class Counter extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div style={settingsStyle}>
-        <button onClick={this.props.resetOffset} style={largeButton}>Reset</button>
-        <div style={counterStyle}>
-          <button onClick={this.props.decrement} style={smallButton}>Decrement</button>
-          <h2 style={{width: "40%"}}>{this.props.offset}</h2>
-          <button onClick={this.props.increment} style={smallButton}>Increment</button>
-        </div>
-        <button style={largeButton} onClick={this.props.offsetString}>Encrypt</button>
-      </div>
-    );
-  }
+constructor(props) {
+super(props);
+}
+render() {
+return (
+<div style={settingsStyle}>
+<button onClick={this.props.resetOffset} style={largeButton}>Reset</button>
+<div style={counterStyle}>
+<button onClick={this.props.decrement} style={smallButton}>Decrement</button>
+<h2 style={{width: "40%"}}>{this.props.offset}</h2>
+<button onClick={this.props.increment} style={smallButton}>Increment</button>
+</div>
+<button style={largeButton} onClick={this.props.offsetString}>Encrypt</button>
+</div>
+);
+}
 };
 
 
 
 // MAIN APP COMPONENT
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = ({
-      input: "",
-      offset: 1,
-      output: ""
-    });
-    this.handleInput = this.handleInput.bind(this);
-    this.offsetString = this.offsetString.bind(this);
-    this.increment = this.increment.bind(this);
-    this.decrement = this.decrement.bind(this);
-    this.resetOffset = this.resetOffset.bind(this);
-  }
+constructor(props) {
+super(props);
+this.state = ({
+input: "",
+offset: 1,
+output: ""
+});
+this.handleInput = this.handleInput.bind(this);
+this.offsetString = this.offsetString.bind(this);
+this.increment = this.increment.bind(this);
+this.decrement = this.decrement.bind(this);
+this.resetOffset = this.resetOffset.bind(this);
+}
 
-  handleInput(event) {
-    this.setState({
-      input: event.target.value
-    });
-  }
+handleInput(event) {
+this.setState({
+input: event.target.value
+});
+}
 
-  offsetString() {
-    const newStr = [...this.state.input].map(L => String.fromCharCode(L.charCodeAt(0)+this.state.offset)).join("");
-    this.setState({
-      output: newStr
-    });
-  }
+offsetString() {
+const newStr = [...this.state.input].map(L => String.fromCharCode(L.charCodeAt(0)+this.state.offset)).join("");
+this.setState({
+output: newStr
+});
+}
 
-  increment() {
-    this.setState({
-      offset: this.state.offset + 1
-    });
-  }
+increment() {
+this.setState({
+offset: this.state.offset + 1
+});
+}
 
-  decrement() {
-    this.setState({
-      offset: this.state.offset - 1
-    });
-  }
+decrement() {
+this.setState({
+offset: this.state.offset - 1
+});
+}
 
-  resetOffset() {
-    this.setState({
-      offset: 0
-    });
-  }
+resetOffset() {
+this.setState({
+offset: 0
+});
+}
 
-  render() {
-    return (
-      <div style={{background: "#ddd", display: "flex", flexDirection: "column", margin: 0, height: "98vh"}}>
-        <Title />
-        <TextBoxContainer handleInput={this.handleInput} />
-        <Counter offset={this.state.offset} offsetString={this.offsetString} increment={this.increment} decrement={this.decrement} resetOffset={this.resetOffset} />
-        <TextBoxContainer value={this.state.output} />
-      </div>
-    );
-  }
+render() {
+return (
+<div style={{background: "#ddd", display: "flex", flexDirection: "column", margin: 0, height: "98vh"}}>
+<Title />
+<TextBoxContainer handleInput={this.handleInput} />
+<Counter offset={this.state.offset} offsetString={this.offsetString} increment={this.increment} decrement={this.decrement} resetOffset={this.resetOffset} />
+<TextBoxContainer value={this.state.output} />
+</div>
+);
+}
 };
 
 
@@ -226,5 +354,5 @@ class App extends React.Component {
 // RENDERING
 ReactDOM.render(<App />, document.getElementById("app"));
 
-  </script>
+</script>
 </body> -->
